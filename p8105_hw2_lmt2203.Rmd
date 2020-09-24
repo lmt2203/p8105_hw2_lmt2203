@@ -1,0 +1,11 @@
+---
+title: "Homework_2"
+author: "Linh Tran"
+date: "9/24/2020"
+output: github_document
+---
+
+```{r setup}
+library(tidyverse)
+```
+
