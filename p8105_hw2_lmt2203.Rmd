@@ -100,7 +100,9 @@ nyc_transit_long = nyc_transit %>%
                values_to = "route_number")
 ```
 
-
+* To answer questions about the A train:
+  + The number of distinct stations serve the A train is **`r nrow(nyc_transit_long %>% distinct(line, station_name, route_number) %>% filter(route_number == "A"))`**.
+  + Of the stations that serve the A train, there are **`r nrow(nyc_transit_long %>% distinct(line, station_name, route_number, ada) %>% filter(route_number == "A", ada == "TRUE" ))`** stations that are ADA complaint. 
 
 
 ## Problem 3
