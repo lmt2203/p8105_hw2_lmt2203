@@ -72,29 +72,32 @@ This dataset contains information from the Mr.Trashwheel trash collector in Balt
 
 
 
-```{r import and clean data}
+```{r import and clean data, message = FALSE, warning = FALSE}
 #This code chunk is to read and clean the data
 
-nyc_transit_df = read_csv("./data/NYC_Transit_Subway_Entrance_And_Exit_Data.csv") %>% 
+nyc_transit = read_csv("./data/NYC_Transit_Subway_Entrance_And_Exit_Data.csv") %>% 
   janitor::clean_names() %>% 
   select(line, station_name, station_latitude, station_longitude, route1:route11, entry, vending, entrance_type, ada) %>% 
   mutate(entry = recode(entry, "YES" = TRUE, "NO" = FALSE)) %>% 
   mutate_at(vars(route8:route11), as.character)
 ```
 
-This dataset contains `r names(nyc_transit_df)` variables. The dataset has dimensions of `r nrow(nyc_transit_df)` rows and `r ncol(nyc_transit_df)` columns. I imported the dataset, changed the variable names to snake cases, select the variables of interest and converted the entry variable from character to logical variable.
+This dataset contains *`r names(nyc_transit)`* variables. The dataset has dimensions of **`r nrow(nyc_transit)`** rows and **`r ncol(nyc_transit)`** columns. I imported the dataset, changed the variable names to snake cases, select the variables of interest and converted the entry variable from character to logical variable. This data is not yet tidy because route name is spread across multiple columns. 
+
+There are **`r nrow(nyc_transit %>% distinct(line, station_name))`** distinct stations. 
+
 
 
 ```{r reformat route number and route name}
 #This code chunk reformats data so that route number and route name are distinct variables
 
-nyc_transit_long = nyc_transit_df %>% 
+nyc_transit_long = nyc_transit %>% 
   pivot_longer(route1:route11,
                names_to = "route_name",
+               names_prefix = "route",
                values_to = "route_number")
 ```
 
-This dataset contains `r names(nyc_transit_df)` variables. The dataset has dimensions of `r nrow(nyc_transit_df)` rows and `r ncol(nyc_transit_df)` columns. I imported the dataset, changed the variable names to snake cases, select the variables of interest and converted the entry variable from character to logical variable. 
 
 
 
