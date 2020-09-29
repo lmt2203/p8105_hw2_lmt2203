@@ -8,6 +8,7 @@ output: github_document
 ```{r setup}
 library(tidyverse)
 library(readxl)
+library(dplyr)
 ```
 
 ## Problem 1
@@ -66,4 +67,22 @@ left_join(precip_df, month_df, by = "month")
 ```
 
 This dataset contains information from the Mr.Trashwheel trash collector in Baltimore, Maryland. As trash enters the inner harbor, the trashwheel collects that trash, and stores it in a dumpster. The dataset contains information on year, month, and trash collected, include some specific kinds of trash. There are a total of `r nrow(trashwheel_df)` rows in our final dataset. Additional data sheets include month precpitation data. 
+
+##Problem 2
+
+This code chunk is to read and clean the data
+
+```{r import data}
+nyc_transit_df = read_csv("./data/NYC_Transit_Subway_Entrance_And_Exit_Data.csv") %>% 
+  janitor::clean_names() %>% 
+  select(line, station_name, station_latitude, station_longitude, route1:route11, entry, vending, entrance_type, ada) %>% 
+  mutate(entry = recode(entry, "YES" = TRUE, "NO" = FALSE))
+```
+
+This dataset contains `r names(nyc_transit_df)` variables. Dimensions of the dataset is `r dim(nyc_transit_df)`.
+
+This code chunk is to reformat data so that route number and route names are distinct variables.
+
+
+##Problem 3
 
