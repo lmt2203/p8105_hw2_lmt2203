@@ -57,7 +57,7 @@ Now combine annual precipitation.
 ```{r}
 month_df = 
   tibble(
-    month= 1:12,
+    month = 1:12,
     month_name = month.name
   )
 precip_df = 
@@ -84,8 +84,10 @@ nyc_transit = read_csv("./data/NYC_Transit_Subway_Entrance_And_Exit_Data.csv") %
 
 This dataset contains *`r names(nyc_transit)`* variables. The dataset has dimensions of **`r nrow(nyc_transit)`** rows and **`r ncol(nyc_transit)`** columns. I imported the dataset, changed the variable names to snake cases, select the variables of interest and converted the entry variable from character to logical variable. This data is not yet tidy because route name is spread across multiple columns. 
 
-There are **`r nrow(nyc_transit %>% distinct(line, station_name))`** distinct stations. 
-
+* To answer questions about the NYC transit data:
+  + There are **`r nrow(nyc_transit %>% distinct(line, station_name))`** distinct stations. 
+  + The number of stations that are ADA complaint is **`r nrow(nyc_transit %>% distinct(line, station_name, ada) %>% filter(ada == "TRUE"))`**.
+  + The proportion of station entrances/exits without vending allow entrance is **`r (nrow(nyc_transit %>% filter(entry == "TRUE" & vending == "NO"))/nrow(nyc_transit %>% filter(vending == "NO")))*100`**
 
 
 ```{r reformat route number and route name}
