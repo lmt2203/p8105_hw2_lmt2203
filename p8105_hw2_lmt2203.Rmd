@@ -113,15 +113,22 @@ Import and clean the three datasets
 pols_month_df = read_csv("./data/pols-month.csv") %>% 
   separate(mon, into = c("year", "month", "day"), sep = "-" ) %>% 
   mutate(month = as.integer(month),
-         month = month.abb[month]) 
+         month = month.abb[month]) %>% 
+  select (-day)
+
 
 snp_df = read_csv("./data/snp.csv") %>% 
-  separate(date, into = c("month", "day", "year"), sep = "/") 
+  separate(date, into = c("month", "day", "year"), sep = "/") %>% 
+  mutate(month = as.integer(month),
+         month = month.abb[month]) %>% 
+  select(-day) %>% 
+  relocate(year)
 
 unemployment_df = read_csv("./data/unemployment.csv") %>% 
+  rename("year" = "Year") %>% 
   pivot_longer(Jan:Dec, 
                names_to = "month",
-               values_to = "percentage")
+               values_to = "percentage_unemployment")
   
   
 ```
